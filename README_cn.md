@@ -4,7 +4,7 @@
 
 ![](imgs/001.png#gh-light-mode-only)
 
-![](imgs/002.png#gh-dark-mode-olny)
+![](imgs/002.png#gh-dark-mode-only)
 
 ## 如何使用
 

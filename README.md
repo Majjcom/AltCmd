@@ -6,7 +6,7 @@ This is a tool, make you run shell anywhere gracefully.
 
 ![](imgs/001.png#gh-light-mode-only)
 
-![](imgs/002.png#gh-dark-mode-olny)
+![](imgs/002.png#gh-dark-mode-only)
 
 ## How to use
 
