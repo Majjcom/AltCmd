@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fonts/MapleMono-SC-NF-Regular.ttf</file>
+        <file>fonts/MapleMono-SC-NF-LightItalic.ttf</file>
+        <file>icon.png</file>
+    </qresource>
+</RCC>
