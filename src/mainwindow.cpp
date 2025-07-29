@@ -42,7 +42,6 @@ MainWindow::MainWindow(QWidget *parent)
     menu_tray->addSeparator();
     menu_tray->addAction(action_exit);
 
-
     QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect(ui->widget);
     effect->setBlurRadius(50);
     effect->setColor(QColor(0, 0, 0, 100));
@@ -92,7 +91,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
-    qDebug() << "Event: " << event;
+    //qDebug() << "Event: " << event;
     if (event->key() == Qt::Key_Return)
     {
         bool show = event->modifiers() & Qt::ControlModifier;
@@ -131,7 +130,14 @@ void MainWindow::runCmd(const bool super, const bool show)
         return;
     }
 
-    command_history.append(cmd);
+    if (command_history.empty())
+    {
+        command_history.append(cmd);
+    }
+    else if (command_history.last() != cmd)
+    {
+        command_history.append(cmd);
+    }
 
     HINSTANCE hResult = ::ShellExecuteA(
         NULL,
