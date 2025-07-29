@@ -13,6 +13,9 @@ int main(int argc, char *argv[])
     QFont font(font_name);
     a.setFont(font);
 
-    MainWindow w;
-    return a.exec();
+    MainWindow* w = new MainWindow;
+    int res = a.exec();
+    delete w;
+
+    return res;
 }

@@ -35,9 +35,13 @@ MainWindow::MainWindow(QWidget *parent)
     shortcut_esc->setContext(Qt::ShortcutContext::WidgetWithChildrenShortcut);
 
     action_exit = new QAction("Exit", this);
+    action_clear_history = new QAction("Clear history", this);
 
     menu_tray = new QMenu(this);
+    menu_tray->addAction(action_clear_history);
+    menu_tray->addSeparator();
     menu_tray->addAction(action_exit);
+
 
     QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect(ui->widget);
     effect->setBlurRadius(50);
@@ -72,6 +76,13 @@ MainWindow::MainWindow(QWidget *parent)
         this,
         SLOT(actionExit())
     );
+
+    connect(
+        action_clear_history,
+        SIGNAL(triggered()),
+        this,
+        SLOT(actionClearHistory())
+    );
 }
 
 MainWindow::~MainWindow()
@@ -81,7 +92,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
-    //qDebug() << "Event: " << event;
+    qDebug() << "Event: " << event;
     if (event->key() == Qt::Key_Return)
     {
         bool show = event->modifiers() & Qt::ControlModifier;
@@ -94,6 +105,19 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
             runCmd(false, show);
         }
         event->accept();
+        return;
+    }
+    else if (event->key() == Qt::Key_Up)
+    {
+        historyBack();
+        event->accept();
+        return;
+    }
+    else if (event->key() == Qt::Key_Down)
+    {
+        historyForward();
+        event->accept();
+        return;
     }
     QMainWindow::keyPressEvent(event);
 }
@@ -106,6 +130,8 @@ void MainWindow::runCmd(const bool super, const bool show)
         hideWindow();
         return;
     }
+
+    command_history.append(cmd);
 
     HINSTANCE hResult = ::ShellExecuteA(
         NULL,
@@ -152,11 +178,13 @@ void MainWindow::shortcutEsc()
 void MainWindow::hideWindow()
 {
     hide();
+    history_index = -1;
 }
 
 void MainWindow::showWindow()
 {
     show();
+    history_index = -1;
     ui->lineEdit->selectAll();
 
     QTimer::singleShot(300, [=]{
@@ -178,4 +206,48 @@ void MainWindow::trayIconClicked(QSystemTrayIcon::ActivationReason reason)
     default:
         break;
     }
+}
+
+void MainWindow::historyBack()
+{
+    if (history_index == -1)
+    {
+        history_index = command_history.length();
+    }
+    history_index -= 1;
+
+    QString cmd;
+    if (history_index != -1)
+    {
+        cmd = command_history[history_index];
+    }
+
+    ui->lineEdit->setText(cmd);
+}
+
+void MainWindow::historyForward()
+{
+    if (history_index == -1)
+    {
+        return;
+    }
+    history_index += 1;
+    if (history_index >= command_history.length())
+    {
+        history_index = -1;
+    }
+
+    QString cmd;
+    if (history_index != -1)
+    {
+        cmd = command_history[history_index];
+    }
+
+    ui->lineEdit->setText(cmd);
+}
+
+void MainWindow::actionClearHistory()
+{
+    history_index = -1;
+    command_history.clear();
 }

@@ -3,6 +3,7 @@
 
 #include <QSystemTrayIcon>
 #include <QMainWindow>
+#include <QStringList>
 #include <QHotKey>
 #include <QAction>
 #include <QMenu>
@@ -20,11 +21,11 @@ public:
     ~MainWindow();
 
 private slots:
-
     void trayIconClicked(QSystemTrayIcon::ActivationReason reason);
     void globalHotkey();
     void shortcutEsc();
     void actionExit();
+    void actionClearHistory();
 
 private:
     Ui::MainWindow *ui;
@@ -33,10 +34,15 @@ private:
     QSystemTrayIcon* system_icon;
     QMenu* menu_tray;
     QAction* action_exit;
+    QAction* action_clear_history;
+    QStringList command_history;
+    int history_index = -1;
 
     void hideWindow();
     void showWindow();
     void runCmd(bool super, bool show);
+    void historyBack();
+    void historyForward();
 
     // QWidget interface
 protected:
