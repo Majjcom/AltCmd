@@ -2,7 +2,7 @@
 
 - [中文](README_cn.md)
 
-This is a tool, make you run shell anywhere gracefully.
+This is a tool make you run shell anywhere gracefully.
 
 ![](imgs/001.png#gh-light-mode-only)
 
