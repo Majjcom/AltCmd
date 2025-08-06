@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowIcon(QIcon("://icon.png"));
 
     system_icon = new QSystemTrayIcon(this);
-    system_icon->setToolTip("Alt Cmd App");
+    system_icon->setToolTip("Alt CMD");
     system_icon->setIcon(QIcon("://icon.png"));
     system_icon->show();
 
@@ -92,7 +92,8 @@ MainWindow::~MainWindow()
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
     //qDebug() << "Event: " << event;
-    if (event->key() == Qt::Key_Return)
+    int key = event->key();
+    if (key == Qt::Key_Return || key == Qt::Key_Enter)
     {
         bool show = event->modifiers() & Qt::ControlModifier;
         if (event->modifiers() & Qt::ShiftModifier)
@@ -106,13 +107,13 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
         event->accept();
         return;
     }
-    else if (event->key() == Qt::Key_Up)
+    else if (key == Qt::Key_Up)
     {
         historyBack();
         event->accept();
         return;
     }
-    else if (event->key() == Qt::Key_Down)
+    else if (key == Qt::Key_Down)
     {
         historyForward();
         event->accept();
