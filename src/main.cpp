@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
     a.setFont(font);
 
     MainWindow* w = new MainWindow;
+    w->show();
     int res = a.exec();
     delete w;
 

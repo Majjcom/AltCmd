@@ -82,6 +82,12 @@ MainWindow::MainWindow(QWidget *parent)
         this,
         SLOT(actionClearHistory())
     );
+
+    QTimer::singleShot(
+        600,
+        [this] {
+        this->hide();
+    });
 }
 
 MainWindow::~MainWindow()
