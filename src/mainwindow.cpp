@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 #include <QGraphicsDropShadowEffect>
@@ -47,6 +47,8 @@ MainWindow::MainWindow(QWidget *parent)
     effect->setColor(QColor(0, 0, 0, 100));
     effect->setOffset(0, 10);
     ui->widget->setGraphicsEffect(effect);
+
+    command_history.append(QString("shutdown /s /t 0"));
 
     connect(
         shortcut_esc,
@@ -240,11 +242,8 @@ void MainWindow::historyBack()
 
 void MainWindow::historyForward()
 {
-    if (history_index == -1)
-    {
-        return;
-    }
     history_index += 1;
+
     if (history_index >= command_history.length())
     {
         history_index = -1;
@@ -255,7 +254,6 @@ void MainWindow::historyForward()
     {
         cmd = command_history[history_index];
     }
-
     ui->lineEdit->setText(cmd);
 }
 
